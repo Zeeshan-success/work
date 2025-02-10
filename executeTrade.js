@@ -14,8 +14,9 @@ export async function executeTrade(side, symbol) {
     console.log(`Placing market ${side} order...`);
 
     let postion = await client.getPositionInformationV3(symbol);
+    console.log("Position Information:", postion.data);
     const response = await client.newOrder(symbol, side, "MARKET", {
-      quantity: postion.data.length === 0 ? 6 : 6 * 2,
+      quantity: postion.data.length === 0 ? 6 : postion.data.positionAmt + 6,
       reduceOnly: false,
       newOrderRespType: "RESULT", // Ensures immediate execution response
     });

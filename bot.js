@@ -130,5 +130,6 @@ setInterval(() => {
 
 (async () => {
   await fetchKlines();
+  await executeTrade("BUY", symbol);
   connectWebSocket();
 })();
