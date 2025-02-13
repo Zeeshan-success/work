@@ -2,6 +2,7 @@ import "dotenv/config";
 import axios from "axios";
 import WebSocket from "ws";
 import { EMA } from "technicalindicators";
+import http from "http";
 
 import { executeTrade } from "./executeTrade.js";
 
@@ -52,7 +53,7 @@ async function checkEMAValues() {
 async function fetchKlines() {
   try {
     const response = await axios.get(`${BASE_URL}/fapi/v1/klines`, {
-      params: { symbol: SYMBOL, interval: "1m", limit: 25 },
+      params: { symbol: SYMBOL, interval: "5m", limit: 25 },
     });
 
     candles = response.data.map((k) => ({
@@ -84,7 +85,7 @@ async function fetchKlines() {
 // WebSocket connection for real-time Futures data
 function connectWebSocket() {
   const ws = new WebSocket(
-    `wss://fstream.binance.com/ws/${SYMBOL.toLowerCase()}@kline_1m`
+    `wss://fstream.binance.com/ws/${SYMBOL.toLowerCase()}@kline_5m`
   );
   ws.onopen = () => console.log("✅ Connected to Binance Future WebSocket");
   ws.onmessage = (event) => {
@@ -133,3 +134,13 @@ setInterval(() => {
   // await executeTrade("BUY", symbol);
   connectWebSocket();
 })();
+
+// 🛠 HTTP Server for Uptime Monitoring
+const server = http.createServer((req, res) => {
+  res.writeHead(200, { "Content-Type": "text/plain" });
+  res.end("Bot is running\n");
+});
+
+server.listen(8080, () => {
+  console.log("🌐 HTTP server is running on port 8080");
+});

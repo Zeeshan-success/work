@@ -38,7 +38,7 @@ export async function executeTrade(side, symbol) {
     const oppositeSide = side === "BUY" ? "SELL" : "BUY";
 
     // ✅ Take Profit Calculation
-    const tpPrice = side === "BUY" ? orderPrice + 0.01 : orderPrice - 0.01;
+    const tpPrice = side === "BUY" ? orderPrice + 0.02 : orderPrice - 0.02;
 
     // ✅ Place Take Profit Order (LIMIT)
     const tpResponse = await client.newOrder(symbol, oppositeSide, "LIMIT", {
@@ -51,22 +51,22 @@ export async function executeTrade(side, symbol) {
     console.log("Take Profit Order Response:", tpResponse.data);
 
     // ✅ Stop Loss Calculation
-    const slPrice = side === "BUY" ? orderPrice - 0.005 : orderPrice + 0.005;
+    // const slPrice = side === "BUY" ? orderPrice - 0.005 : orderPrice + 0.005;
 
-    // ✅ Place Stop Loss Order (STOP-MARKET)
-    const slResponse = await client.newOrder(
-      symbol,
-      oppositeSide,
-      "STOP_MARKET",
-      {
-        quantity: 6,
-        stopPrice: slPrice.toFixed(3), // Stop Price for SL trigger
-        timeInForce: "GTC",
-        reduceOnly: true,
-      }
-    );
+    // // ✅ Place Stop Loss Order (STOP-MARKET)
+    // const slResponse = await client.newOrder(
+    //   symbol,
+    //   oppositeSide,
+    //   "STOP_MARKET",
+    //   {
+    //     quantity: 6,
+    //     stopPrice: slPrice.toFixed(3), // Stop Price for SL trigger
+    //     timeInForce: "GTC",
+    //     reduceOnly: true,
+    //   }
+    // );
 
-    console.log("Stop Loss Order Response:", slResponse.data);
+    // console.log("Stop Loss Order Response:", slResponse.data);
   } catch (error) {
     console.error("Error placing order:", error);
   }

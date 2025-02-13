@@ -1,0 +1,11 @@
+# .replit file
+
+run = "node bot.js" # Replace "bot.js" with the actual file name if different
+
+# Optionally specify the language for Replit
+
+language = "nodejs"
+
+# Define the entrypoint file (your bot's main script)
+
+entrypoint = "bot.js" # Replace with your main file if the name differs
